@@ -1877,7 +1877,6 @@ cleanup:
 				}
 				else
 				{
-                    
                     //////
                     UInt32 processingMaxFrames;//added by dingfeng
                     AudioStreamBasicDescription processingFormat;
@@ -1896,7 +1895,6 @@ cleanup:
                         return;
                     }
                     //////
-                    
 					self.state = AS_WAITING_FOR_QUEUE_TO_START;
 					err = AudioQueueStart(audioQueue, NULL);
 					if (err)
