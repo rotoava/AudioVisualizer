@@ -4,7 +4,7 @@
 
 
 
-![Alt text](https://raw2.github.com/rotoava/ColorCollection/master/Screen%20Shot%202014-02-09%20at%20下午7.35.10.png)
+![Alt text](https://raw.githubusercontent.com/rotoava/AudioVisualizer/master/iOS%20Simulator%20Screen%20shot%20Apr%2029,%202014,%2010.41.28%20PM.png)
 
 
 
