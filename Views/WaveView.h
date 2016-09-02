@@ -8,9 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+// float waveform[waveformLength];
+
+@protocol WaveViewProtocol <NSObject>
+@required
+- (Float32 *)fetchWaveSamplesLen:(int)lenth;
+
+@end
+
 @interface WaveView : UIView
 
+@property (nonatomic, weak) id<WaveViewProtocol> dataSource;
 
-
-@property (nonatomic,weak) id dataSource;
 @end

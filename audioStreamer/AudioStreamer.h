@@ -11,6 +11,7 @@
 //  this copyright and permission notice. Attribution in compiled projects is
 //  appreciated but not required.
 //
+#import "WaveView.h"
 
 #if TARGET_OS_IPHONE			
 #import <UIKit/UIKit.h>
@@ -105,7 +106,7 @@ extern NSString * const ASPresentAlertWithTitleNotification;
 extern NSString * const ASUpdateMetadataNotification;
 #endif
 
-@interface AudioStreamer : NSObject
+@interface AudioStreamer<WaveViewProtocol>: NSObject
 {
 	NSURL *url;
     NSArray *_ringBuffers;

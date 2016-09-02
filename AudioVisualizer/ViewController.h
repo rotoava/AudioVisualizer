@@ -7,13 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-@class AudioStreamer;
 
 @interface ViewController : UIViewController
-{
-
-
-	AudioStreamer *streamer;
-}
 
 @end

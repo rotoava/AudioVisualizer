@@ -262,6 +262,7 @@ void MYAudioQueueProcessingTapCallback(
 
 }
 
+
 @implementation AudioStreamer
 @synthesize errorCode;
 @synthesize state;
@@ -2568,6 +2569,17 @@ static void Callback(
 	}
 }
 #endif
+
+
+
+
+#pragma mark WaveViewProtocol
+- (Float32 *)fetchWaveSamplesLen:(int)lenth {
+    Float32 *wavadata = malloc(lenth * 4);
+    [self.ringBuffers.firstObject copyTo:wavadata length:lenth];
+    return wavadata;
+}
+
 
 @end
 

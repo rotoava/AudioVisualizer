@@ -30,63 +30,53 @@ static float ConvertLogScale(float x)
 @implementation WaveView
 @synthesize dataSource= _dataSource;
 
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        self.backgroundColor = [UIColor  whiteColor];
+        self.backgroundColor = [UIColor whiteColor];
         [NSTimer scheduledTimerWithTimeInterval:(1.0f / 60) target:self selector:@selector(refresh) userInfo:nil repeats:YES];
 
     }
     return self;
 }
-- (void)refresh
-{
-    
+- (void)refresh {
     [self  setNeedsDisplay];
 }
 
-
-- (void)drawRect:(CGRect)rect
-{
+- (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
-    
     CGSize size = self.frame.size;
-    
-    AudioStreamer *microphoneStream  = (AudioStreamer *)_dataSource;
-//    [_analyzer processAudioInput:microphoneStream allChannels:YES];
-    if (_dataSource) {
-    }else
-    {
+//  [_analyzer processAudioInput:microphoneStream allChannels:YES];
+//  [_analyzer processAudioInput:microphoneStream channel:0];
+    if (!_dataSource) {
         return;
     }
-    [_analyzer processAudioInput:microphoneStream channel:0];
-    {
-        NSUInteger waveformLength = 4096;
-        float waveform[waveformLength];
-        
-      //  NSLog(@"microphoneStream.ringBuffers  +++   ____  ::::::%@",microphoneStream.ringBuffers);
-        [microphoneStream.ringBuffers.firstObject copyTo:waveform length:waveformLength];
-        UIBezierPath *path = [UIBezierPath bezierPath];
-        float xScale = size.width / waveformLength;
-        
-        for (NSUInteger i = 0; i < waveformLength; i++) {
-            float x = xScale * i;
-            float y = (waveform[i] * 0.5f + 0.5f) * size.height;
-            if (i == 0) {
-                [path moveToPoint:CGPointMake(x, y)];
-            } else {
-                
-                if (y>-200&&y<200) {
-                    [path addLineToPoint:CGPointMake(x, y)];
-                }
+    
+    NSUInteger waveformLength = 4096;
+    float waveform[waveformLength];
+    Float32 *wavedata = [self.dataSource fetchWaveSamplesLen:4096];
+    memcpy(waveform, wavedata, waveformLength * sizeof(Float32));
+    free(wavedata);
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    float xScale = size.width / waveformLength;
+    
+    for (NSUInteger i = 0; i < waveformLength; i++) {
+        float x = xScale * i;
+        float y = (waveform[i] * 0.5f + 0.5f) * size.height;
+        if (i == 0) {
+            [path moveToPoint:CGPointMake(x, y)];
+        } else {
+            
+            if (y > -200 && y < 200) {
+                [path addLineToPoint:CGPointMake(x, y)];
             }
         }
-        [[UIColor redColor] setStroke];
-         path.lineWidth = 0.5f;
-        [path stroke];
     }
+    [[UIColor redColor] setStroke];
+    path.lineWidth = 0.5f;
+    [path stroke];
+//
 }
 
 @end
